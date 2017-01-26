@@ -1,0 +1,17 @@
+{
+  "name": "indeed-scraper",
+  "version": "1.0.0",
+  "description": "Scrapes Indeed job searches and stores each job in an object.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "web-scraper",
+    "Indeed",
+    "cheerio",
+    "https"
+  ],
+  "author": "Adam Sinclair",
+  "license": "ISC"
+}
