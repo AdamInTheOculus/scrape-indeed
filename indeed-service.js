@@ -161,6 +161,7 @@ exports = module.exports = function IndeedService(options) {
 					// Get job title and href to ad details
 					var aTag = $(element).find('a');
 					jobDetails.href = 'ca.indeed.com' + aTag.attr('href');
+					jobDetails.title = aTag.attr('title');
 
 					// Is ad sponsored?
 					var sponsor = $(element).find('span.sdn');

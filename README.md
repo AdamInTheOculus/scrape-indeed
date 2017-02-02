@@ -46,6 +46,7 @@ Below is an example of what a main job posting is. `jobList` contains a list of 
 | name | datatype | description |
 |------|----------|-------------|
 | href | string | A complete URL to the Canadian job posting |
+| title | string | Job title of posting |
 | isSponsored | boolean | Indicates whether the posting is Sponsored. Sponsored ads are seen first/last |
 | companyName | string | Company name of job posting |
 | location | string | Geographical location of job |
