@@ -50,3 +50,10 @@ Look at the table to see the different kinds of data available.
 | location | string | Geographical location of job |
 | salary | string | Indicates salary/hourly wage |
 | summary | string | Short summary of the job posting |
+
+### Known issues?
+- Only works with ca.indeed.com (Canadian site)
+    - US site feature will be added in future
+- Some main job postings will be missing data ('N/A')
+    - This is because job posters don't provide all information
+    
