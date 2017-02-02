@@ -11,3 +11,16 @@
 
 ### How to use it?
 - Good question! I'll get to that once testing is done.
+```javascript
+var IndeedService = require('../indeed-service.js')();
+
+IndeedService.query('Javascript', 'Toronto', '100')
+.then(function(data) {
+    // Do something with data ...
+    console.log(data.jobList);
+
+})
+.catch(function(err) {
+    console.log('Error: ' + err);
+});
+```

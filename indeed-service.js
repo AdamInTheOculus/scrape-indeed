@@ -32,7 +32,7 @@ exports = module.exports = function IndeedService(options) {
 		locationList: [],
 		companyList: [],
 		titleList: [],
-		adList: []
+		jobList: []
 	}; // close data
 
 	this.query = function(jobTitle, location, radius, startingAd) {
@@ -71,7 +71,7 @@ exports = module.exports = function IndeedService(options) {
 				_getFeaturedJobs($)
 				.then(function(list) {
 					console.log('Successfully gathered up ads!');
-					_this.data.adList = list;
+					_this.data.jobList = list;
 				})
 				.catch(function(err) {
 					console.log('No deal!' + err);
