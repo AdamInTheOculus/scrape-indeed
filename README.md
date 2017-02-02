@@ -39,8 +39,7 @@ Look at the table to see the different kinds of data available.
 | titleList | array | ... sorted by job title (Senior Web Developer, Junior Dev, C Developer, etc.) |
 | jobList | array | List of all main job postings [JSON format] |
 
-Below is an example of what a main job posting is.
-`jobList` contains a list of these main postings
+Below is an example of what a main job posting is. `jobList` contains a list of these main postings.
 ![Main Job Postings](./pics/indeed-main-postings.png?raw=true "Main Job Postings")
 
 #### jobList object
