@@ -40,6 +40,7 @@ Look at the table to see the different kinds of data available.
 | jobList | array | List of all main job postings [JSON format] |
 
 `jobList` is a list of objects. Here is a table of what is available in each object.
+![Main Job Postings](./pics/indeed-main-postings.png?raw=true "Main Job Postings")
 
 #### jobList object
 | name | datatype | description |
@@ -56,4 +57,3 @@ Look at the table to see the different kinds of data available.
     - US site feature will be added in future
 - Some main job postings will be missing data ('N/A')
     - This is because job posters don't provide all information
-    
