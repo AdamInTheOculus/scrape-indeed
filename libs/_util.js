@@ -24,6 +24,8 @@ var utility = {
 				method: 'GET',
 			};
 
+			console.log('Full URL: ' + host + path);
+
 			var req = https.get(get_options, function(res) {
 
 				var dataChunk = '';
