@@ -15,6 +15,9 @@
 var IndeedService = require('../indeed-service.js')();
 
 // Get initial Indeed data using IndeedService.query().
+// 1st argument: Keyword
+// 2nd argument: Location
+// 3rd argument: Radius of search, in KM
 IndeedService.query('Javascript', 'Toronto', '100')
 .then(function(data) {
     // Do something with data ...
