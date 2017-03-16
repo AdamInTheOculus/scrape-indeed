@@ -10,14 +10,14 @@
         hopefully other job search-engines.
 */
 
-var _util = require('./libs/_util.js'),
+const _util = require('./libs/_util.js'),
     cheerio = require('cheerio'),
     extend = require('extend')
 ;
 
 exports = module.exports = function IndeedService(options) {
 
-    var _this = this;
+    const _this = this;
 
     this.parameters = {
         title: '',
@@ -57,7 +57,7 @@ exports = module.exports = function IndeedService(options) {
                 _this.parameters.adIndex += 10;
 
                 // Load out HTML into a jQuery-like variable
-                var $ = cheerio.load(htmlResponse);
+                let $ = cheerio.load(htmlResponse);
 
                 // Get title/href of related jobs, sorted by criteria
                 _this.data.featuredAdCount = _getFeaturedJobCount($);
@@ -70,19 +70,18 @@ exports = module.exports = function IndeedService(options) {
                 // Get featured & sponsored jobs from current page
                 _getFeaturedJobs($)
                 .then(function(list) {
-                    console.log('Successfully gathered up ads!');
                     _this.data.jobList = list;
                 })
                 .catch(function(err) {
                     console.log('No deal!' + err);
-                    var currentErr = 'Inside IndeedService.query() -- ';
+                    let currentErr = 'Inside IndeedService.query() -- ';
                     reject(new Error(currentErr + '\n' + err));
                 })
 
                 resolve(_this.data);
 
             }).catch(function(err) {
-                var currentErr = 'Inside IndeedService.query() -- ';
+                let currentErr = 'Inside IndeedService.query() -- ';
                 reject(new Error(currentErr + '\n' + err));
             });
         }); // close Promise()      
@@ -95,7 +94,7 @@ exports = module.exports = function IndeedService(options) {
                 resolve(data);
             })
             .catch(function(err) {
-                var currentErr = 'Inside IndeedService.nextPage() --';
+                let currentErr = 'Inside IndeedService.nextPage() --';
                 reject(new Error(currentErr + '\n' + err));
             })
         });
@@ -109,21 +108,34 @@ exports = module.exports = function IndeedService(options) {
         }
     }; // close printAllData
 
+    this.getFullHTML = function(jobTitle, location, radius) {
+        return new Promise(function(resolve, reject) {
+            _util.getHTTPS('ca.indeed.com', '/jobs?q=' +jobTitle+ '&l=' +location+ '&radius=' + radius)
+            .then(function(htmlResponse) {
+                resolve(htmlResponse);
+            })
+            .catch(function(err) {
+                let currentErr = 'Inside IndeedService.getFullHTML() -- ';
+                reject(new Error(currentErr + '\n' + err));
+            })
+        });
+    };
+
 // -----------------------------------------------------------
 // ---------------- UTILITY FUNCTIONS FOR API ----------------
 // -----------------------------------------------------------
 
-    var _formattedPrint = function(itemToPrint, itemName) {
+    const _formattedPrint = function(itemToPrint, itemName) {
         console.log('----------------- '+itemName+' -----------------');
         console.log(itemToPrint);
         console.log('-------------------------------------------------');
     };
 
-    var _getJobListByCriteria = function($, criteria) {
+    const _getJobListByCriteria = function($, criteria) {
         // Iterate through all 'criteria' postings.
         // Gather up all <a> tag texts and hrefs.
         // This provides us with external links to other related jobs in close proximity.
-        var list = [];
+        let list = [];
         $(criteria).find('a').each(function(index, element) {
             var jobDetails = {};
             jobDetails.text = $(element).attr('title');
@@ -133,9 +145,9 @@ exports = module.exports = function IndeedService(options) {
         return list;
     };
 
-    var _getFeaturedJobCount = function($) {
-        var searchCount = 0;
-        var countString = $('#searchCount').text();
+    const _getFeaturedJobCount = function($) {
+        let searchCount = 0;
+        let countString = $('#searchCount').text();
 
         // countString returns 'x jobs out of y'
         // x is the number shown on single page.
@@ -144,38 +156,38 @@ exports = module.exports = function IndeedService(options) {
         return (countString.slice(countString.lastIndexOf('of ') + 3));
     };
 
-    var _getFeaturedJobs = function($) {
+    const _getFeaturedJobs = function($) {
 
         return new Promise(function(resolve, reject) {
 
             if($ === undefined) {
-                var currentErr = 'Inside _getFeaturedJobs() - '
+                let currentErr = 'Inside _getFeaturedJobs() - '
                 reject(new Error(currentErr + '`$` is undefined.'));
             } else {
 
-                var list = [];
+                let list = [];
 
                 $('div.row.result').each(function(i, element) {
-                    var jobDetails = {};
+                    let jobDetails = {};
 
                     // Get job title and href to ad details
-                    var aTag = $(element).find('a');
+                    let aTag = $(element).find('a');
                     jobDetails.href = 'ca.indeed.com' + aTag.attr('href');
                     jobDetails.title = aTag.attr('title');
 
                     // Is ad sponsored?
-                    var sponsor = $(element).find('span.sdn');
-                    var isSponsored = false;
+                    let sponsor = $(element).find('span.sdn');
+                    let isSponsored = false;
                     ((sponsor.text() === 'Sponsored') ? isSponsored = true : isSponsored = false);
                     jobDetails.isSponsored = isSponsored;
 
                     // Some ad details have different class names if they're sponsored.
                     // Why? I have no idea ... but it was a pain in the ass figuring it out.
-                    var companyName, location, salary, summary;
+                    let companyName, location, salary, summary, datePosted;
                     if(isSponsored) {
 
-                        var sponsoredDiv = $(element).find('div.sjcl');
-                        var tableData = $(element).find('table tr td span.summary');
+                        let sponsoredDiv = $(element).find('div.sjcl');
+                        let tableData = $(element).find('table tr td span.summary');
 
                         // Company name
                         companyName = sponsoredDiv.find('span.company').text();
@@ -196,15 +208,15 @@ exports = module.exports = function IndeedService(options) {
                     } else {
 
                         // Company name
-                        var companySpan = $(element).find('span.company');
+                        let companySpan = $(element).find('span.company');
                         companyName = companySpan.find('span').text();
                         jobDetails.companyName = ((companyName.length > 1) ? companyName.trim() : 'N/A');
 
                         // Job location
-                        location = $(element).find('span span.location');
-                        jobDetails.location = ((location.length > 1) ? location.trim() : 'N/A/');
+                        location = $(element).find("span[itemprop='addressLocality']").text();
+                        jobDetails.location = ((location.length > 1) ? location.trim() : 'N/A');
 
-                        var tableData = $(element).find('table tr td');
+                        let tableData = $(element).find('table tr td');
 
                         // Job salary
                         salary = $(tableData).find('nobr').text();
@@ -213,6 +225,10 @@ exports = module.exports = function IndeedService(options) {
                         // Job summary
                         summary = $(tableData).find('span.summary').text();
                         jobDetails.summary = ((summary.length > 1) ? summary.trim() : 'N/A');
+
+                        // Job post date
+                        datePosted = $(tableData).find('span.date').text();
+                        jobDetails.datePosted = ((datePosted.length > 1) ? datePosted.trim() : 'N/A');
                     }
 
                     list.push(jobDetails);

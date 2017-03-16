@@ -12,3 +12,8 @@ Changelog
 - develop scraper to get all job postings
 - sort posting data into single object
 - return list of all job posting objects
+
+### v0.3.0
+- add job location
+- add posted date for non-sponsored listings
+- replaced `var` with `let` and `const` -- more ES6-like
