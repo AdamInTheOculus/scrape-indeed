@@ -17,11 +17,6 @@ Install from NPM registry:
 npm install scrape-indeed
 ```
 
-Don't forget to install dependencies:
-```
-npm install
-```
-
 #### Basic usage.
 ```javascript
 // Require our module.
