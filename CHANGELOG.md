@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### v0.3.2
+- add project to NPM registry as `scrape-indeed`
+
 #### v0.3.1
 - rename `jobList.companyName` to `jobList.company`
 - update README.md to show other available functions
