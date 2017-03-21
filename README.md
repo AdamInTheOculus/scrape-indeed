@@ -96,3 +96,8 @@ Below is an example of what a main job posting is. `jobList` contains a list of 
     - US site feature will be added in future
 - Some main job postings will be missing data ('N/A')
     - This is because job posters don't provide all information
+
+## Backlog
+- Allow `n` number of job postings to be searched, rather than 10 per query.
+- Allow all North American jobs to be searched, rather than only Canada.
+- Create NPM registry to enable `npm install`.
