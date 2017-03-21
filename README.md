@@ -1,20 +1,20 @@
 # Indeed Scraper
 
-### What is it?
-- API that allows flexible job searching.
-- Uses Node.js for server-side operations.
+## What is it?
+- Node.js library that allows flexible job searching.
+- HTTPS calls are made to `ca.indeed.com`
 - Uses ES6 Promises to handle asynchronous control flow.
 
-### Why use it?
+## Why use it?
 - Allows your web app to get job posting data from Indeed.
 - You don't have to deal with Indeed's cluttered interface.
 
-### How to use it?
+## How to use it?
 
 #### Basic usage.
 ```javascript
 // Require our module.
-var IndeedService = require('../indeed-service.js')();
+var IndeedService = require('./indeed-service.js')();
 
 // Get initial Indeed data using IndeedService.query().
 // 1st argument: Keyword
@@ -33,7 +33,7 @@ IndeedService.query('Javascript', 'Toronto', '100')
 #### That's great. But that only gives us 10 job postings.
 - We can ask for the next 10 ads by using `IndeedService.nextPage()`
 - We can see which ad index we're currently at by using `IndeedService.parameters.adIndex`
-- Once you've performed a search, the `data` returned contains a variable letting you know the total number of job postings: `data.featuredAdCount`
+- Once we've performed a search, the returned `data` object has a property containing the total number of job postings: `data.featuredAdCount`
 
 ```javascript
 // Require our module.
@@ -60,7 +60,7 @@ IndeedService.query('Javascript', 'Toronto', '100')
 });
 ```
 
-### What does the data look like?
+## What does the data look like?
 Look at the table to see the different kinds of data available.
 
 #### IndeedService.query() object
@@ -87,7 +87,7 @@ Below is an example of what a main job posting is. `jobList` contains a list of 
 | salary | string | Indicates salary/hourly wage |
 | summary | string | Short summary of the job posting |
 
-### Known issues?
+## Known issues?
 - Only works with ca.indeed.com (Canadian site)
     - US site feature will be added in future
 - Some main job postings will be missing data ('N/A')
