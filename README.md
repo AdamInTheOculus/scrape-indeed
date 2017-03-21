@@ -11,10 +11,21 @@
 
 ## How to use it?
 
+#### Installation
+Install from NPM registry:
+```
+npm install scrape-indeed
+```
+
+Don't forget to install dependencies:
+```
+npm install
+```
+
 #### Basic usage.
 ```javascript
 // Require our module.
-const IndeedService = require('./indeed-service.js')();
+const IndeedService = require('scrape-indeed')();
 
 // Get initial Indeed data using IndeedService.query().
 // 1st argument: Keyword
@@ -37,7 +48,7 @@ IndeedService.query('Javascript', 'Toronto', '100')
 
 ```javascript
 // Require our module.
-const IndeedService = require('./indeed-service.js')();
+const IndeedService = require('scrape-indeed')();
 
 // Get initial Indeed data using IndeedService.query().
 IndeedService.query('Javascript', 'Toronto', '100')
