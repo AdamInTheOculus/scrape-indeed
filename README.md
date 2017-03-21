@@ -74,7 +74,7 @@ Look at the table to see the different kinds of data available.
 | jobList | array | List of all main job postings [JSON format] |
 
 Below is an example of what a main job posting is. `jobList` contains a list of these main postings.
-![Main Job Postings](./pics/indeed-main-postings.png?raw=true "Main Job Postings")
+![Indeed Main Job Listing](https://cloud.githubusercontent.com/assets/15149835/24162186/1227ae34-0e3d-11e7-8184-3d71bf19fbd6.png)
 
 #### jobList object
 | name | datatype | description |
