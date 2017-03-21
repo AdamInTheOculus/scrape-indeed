@@ -10,6 +10,8 @@
 - You don't have to deal with Indeed's cluttered interface.
 
 ### How to use it?
+
+#### Basic usage.
 ```javascript
 // Require our module.
 var IndeedService = require('../indeed-service.js')();
@@ -22,7 +24,36 @@ IndeedService.query('Javascript', 'Toronto', '100')
 .then(function(data) {
     // Do something with data ...
     console.log(data.jobList);
+})
+.catch(function(err) {
+    console.log('Error: ' + err);
+});
+```
 
+#### That's great. But that only gives us 10 job postings.
+- We can ask for the next 10 ads by using `IndeedService.nextPage()`
+- We can see which ad index we're currently at by using `IndeedService.parameters.adIndex`
+- Once you've performed a search, the `data` returned contains a variable letting you know the total number of job postings: `data.featuredAdCount`
+
+```javascript
+// Require our module.
+var IndeedService = require('./indeed-service.js')();
+
+// Get initial Indeed data using IndeedService.query().
+IndeedService.query('Javascript', 'Toronto', '100')
+.then(function(data) {
+    console.log(data.jobList);
+
+    // Get next 10 job postings
+    // NOTE: This will overwrite the current data ...
+    return IndeedService.nextPage();
+})
+.then(function(data) {
+    // Do something with next 10 job postings
+    console.log(data.jobList);
+
+    // View the current jobs index and total jobs
+    console.log(`You've viewed [${IndeedService.parameters.adIndex}] jobs out of [${data.featuredAdCount}] total jobs.`);
 })
 .catch(function(err) {
     console.log('Error: ' + err);
@@ -51,7 +82,7 @@ Below is an example of what a main job posting is. `jobList` contains a list of 
 | href | string | A complete URL to the Canadian job posting |
 | title | string | Job title of posting |
 | isSponsored | boolean | Indicates whether the posting is Sponsored. Sponsored ads are seen first/last |
-| companyName | string | Company name of job posting |
+| company | string | Company name of job posting |
 | location | string | Geographical location of job |
 | salary | string | Indicates salary/hourly wage |
 | summary | string | Short summary of the job posting |

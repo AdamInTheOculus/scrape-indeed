@@ -16,4 +16,8 @@ Changelog
 ### v0.3.0
 - add job location
 - add posted date for non-sponsored listings
-- replaced `var` with `let` and `const` -- more ES6-like
+- replace `var` with `let` and `const` -- more ES6-like
+
+### v0.3.1
+- rename `jobList.companyName` to `jobList.company`
+- update README.md to show off other functions

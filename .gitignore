@@ -3,3 +3,6 @@ npm-debug.log
 
 # HTML output
 output.html
+
+# Test files
+test.js

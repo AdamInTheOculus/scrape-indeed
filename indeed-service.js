@@ -157,7 +157,6 @@ exports = module.exports = function IndeedService(options) {
     };
 
     const _getFeaturedJobs = function($) {
-
         return new Promise(function(resolve, reject) {
 
             if($ === undefined) {
@@ -183,15 +182,15 @@ exports = module.exports = function IndeedService(options) {
 
                     // Some ad details have different class names if they're sponsored.
                     // Why? I have no idea ... but it was a pain in the ass figuring it out.
-                    let companyName, location, salary, summary, datePosted;
+                    let company, location, salary, summary, datePosted;
                     if(isSponsored) {
 
                         let sponsoredDiv = $(element).find('div.sjcl');
                         let tableData = $(element).find('table tr td span.summary');
 
                         // Company name
-                        companyName = sponsoredDiv.find('span.company').text();
-                        jobDetails.companyName = ((companyName.length > 1) ? companyName.trim() : 'N/A');
+                        company = sponsoredDiv.find('span.company').text();
+                        jobDetails.company = ((company.length > 1) ? company.trim() : 'N/A');
 
                         // Job location
                         location = sponsoredDiv.find('span.location').text();
@@ -209,8 +208,8 @@ exports = module.exports = function IndeedService(options) {
 
                         // Company name
                         let companySpan = $(element).find('span.company');
-                        companyName = companySpan.find('span').text();
-                        jobDetails.companyName = ((companyName.length > 1) ? companyName.trim() : 'N/A');
+                        company = companySpan.find('span').text();
+                        jobDetails.company = ((company.length > 1) ? company.trim() : 'N/A');
 
                         // Job location
                         location = $(element).find("span[itemprop='addressLocality']").text();
@@ -237,8 +236,8 @@ exports = module.exports = function IndeedService(options) {
                 resolve(list);
 
             } // end of else
-        });
-    };
+        }); // end of Promise
+    }; // close _getFeaturedJobs()
 
     return this;
 }; // close module.exports = function indeedService(options);
