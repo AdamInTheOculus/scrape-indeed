@@ -1,6 +1,6 @@
 {
   "name": "scrape-indeed",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Scrape ca.indeed.com job postings.",
   "main": "indeed-service.js",
   "scripts": {
