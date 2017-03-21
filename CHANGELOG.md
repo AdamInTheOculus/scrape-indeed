@@ -20,4 +20,5 @@ Changelog
 
 ### v0.3.1
 - rename `jobList.companyName` to `jobList.company`
-- update README.md to show off other functions
+- update README.md to show other available functions
+- update package.json

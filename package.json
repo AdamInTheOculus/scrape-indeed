@@ -1,7 +1,7 @@
 {
   "name": "indeed-scraper",
   "version": "0.3.1",
-  "description": "Scrapes ca.indeed.com job searches and stores each job in an array.",
+  "description": "Scrape ca.indeed.com job postings.",
   "main": "indeed-service.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
