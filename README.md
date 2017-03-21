@@ -1,12 +1,12 @@
 # Scrape Indeed
 
 ## What is it?
-- Node.js library that allows flexible job searching.
-- HTTPS calls are made to `ca.indeed.com` (Canadian jobs, see [Backlog](#backlog))
+- Node.js package that allows flexible job searching of Indeed's job postings.
+- HTTPS calls are made to `ca.indeed.com` (Currently only Canadian jobs, see [Backlog](#backlog)).
 - Uses ES6 Promises to handle asynchronous control flow.
 
 ## Why use it?
-- Allows your web app to get job posting data from Indeed.
+- Allows your web app to get full job posting data from Indeed.
 - You don't have to deal with Indeed's cluttered interface.
 
 ## How to use it?
@@ -63,7 +63,7 @@ IndeedService.query('Javascript', 'Toronto', '100')
 ## What does the data look like?
 Look at the table to see the different kinds of data available.
 
-#### * IndeedService.query() returns an object containing ...
+#### IndeedService.query() returns an object containing ...
 | name | datatype | description |
 |------|----------|-------------|
 | salaryList | array | List of links to job searches sorted by salary ($50000+, $70000+, etc.) |
@@ -80,7 +80,7 @@ Below is an example of what a main job posting is. `jobList` contains a list of 
 
 --------
 
-#### * jobList object
+#### jobList object contains ...
 | name | datatype | description |
 |------|----------|-------------|
 | href | string | A complete URL to the Canadian job posting |
@@ -98,6 +98,7 @@ Below is an example of what a main job posting is. `jobList` contains a list of 
     - This is because job posters don't provide all information
 
 ## Backlog
+- Allow a single `options` object to be passed into `IndeedService.query()`, rather than a separate parameter for each search token.
 - Allow `n` number of job postings to be searched, rather than 10 per query.
 - Allow all North American jobs to be searched, rather than only Canada.
 - Create NPM registry to enable `npm install`.
