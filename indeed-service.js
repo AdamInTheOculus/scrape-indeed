@@ -11,11 +11,10 @@
 */
 
 const _util = require('./libs/_util.js'),
-    cheerio = require('cheerio'),
-    extend = require('extend')
+    cheerio = require('cheerio')
 ;
 
-exports = module.exports = function IndeedService(options) {
+exports = module.exports = function IndeedService() {
 
     const _this = this;
 

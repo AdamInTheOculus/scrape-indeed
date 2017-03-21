@@ -1,6 +1,9 @@
 Changelog
 =========
 
+#### v0.3.3
+- remove unnecessary modules 
+
 #### v0.3.2
 - add project to NPM registry as `scrape-indeed`
 
