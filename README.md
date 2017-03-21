@@ -1,8 +1,8 @@
-# Indeed Scraper
+# Scrape Indeed
 
 ## What is it?
 - Node.js library that allows flexible job searching.
-- HTTPS calls are made to `ca.indeed.com`
+- HTTPS calls are made to `ca.indeed.com` (Canadian jobs, see ![Backlog](https://github.com/AdamInTheOculus/scrape-indeed#backlog))
 - Uses ES6 Promises to handle asynchronous control flow.
 
 ## Why use it?

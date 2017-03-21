@@ -22,3 +22,4 @@ Changelog
 - rename `jobList.companyName` to `jobList.company`
 - update README.md to show other available functions
 - update package.json
+- rename Git Repo to `scrape-indeed`
