@@ -14,7 +14,7 @@
 #### Basic usage.
 ```javascript
 // Require our module.
-var IndeedService = require('./indeed-service.js')();
+const IndeedService = require('./indeed-service.js')();
 
 // Get initial Indeed data using IndeedService.query().
 // 1st argument: Keyword
@@ -37,7 +37,7 @@ IndeedService.query('Javascript', 'Toronto', '100')
 
 ```javascript
 // Require our module.
-var IndeedService = require('./indeed-service.js')();
+const IndeedService = require('./indeed-service.js')();
 
 // Get initial Indeed data using IndeedService.query().
 IndeedService.query('Javascript', 'Toronto', '100')
@@ -63,7 +63,7 @@ IndeedService.query('Javascript', 'Toronto', '100')
 ## What does the data look like?
 Look at the table to see the different kinds of data available.
 
-#### IndeedService.query() object
+#### * IndeedService.query() returns an object containing ...
 | name | datatype | description |
 |------|----------|-------------|
 | salaryList | array | List of links to job searches sorted by salary ($50000+, $70000+, etc.) |
@@ -73,10 +73,14 @@ Look at the table to see the different kinds of data available.
 | titleList | array | ... sorted by job title (Senior Web Developer, Junior Dev, C Developer, etc.) |
 | jobList | array | List of all main job postings [JSON format] |
 
+--------
+
 Below is an example of what a main job posting is. `jobList` contains a list of these main postings.
 ![indeed-disection](https://cloud.githubusercontent.com/assets/15149835/24163965/8d73e850-0e42-11e7-8b97-501545b128e0.png)
 
-#### jobList object
+--------
+
+#### * jobList object
 | name | datatype | description |
 |------|----------|-------------|
 | href | string | A complete URL to the Canadian job posting |
