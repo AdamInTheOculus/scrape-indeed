@@ -6,3 +6,6 @@ output.html
 
 # Test files
 test.js
+
+# Node modules
+node_modules/

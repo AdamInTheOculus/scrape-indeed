@@ -13,5 +13,8 @@
     "https"
   ],
   "author": "Adam Sinclair",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.22.0"
+  }
 }
