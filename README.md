@@ -107,4 +107,4 @@ Below is an example of what a main job posting is. `jobList` contains a list of 
 - Allow a single `options` object to be passed into `IndeedService.query()`, rather than a separate parameter for each search token.
 - Allow `n` number of job postings to be searched, rather than 10 per query.
 - Allow all North American jobs to be searched, rather than only Canada.
-- Create NPM registry to enable `npm install`.
+- ~Create NPM registry to enable `npm install`.~ [Added in 0.3.2]
