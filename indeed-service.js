@@ -18,12 +18,12 @@ exports = module.exports = function IndeedService() {
 
     const _this = this;
 
-    this.parameters = {
-        title: '',
-        location: '',
-        radius: '',
-        adIndex: 0
-    };
+    // In order for us to recursively call IndeedService.nextPage(), we need to 
+    // keep track of the required parameters. 
+    let previousQuery = '',
+        jobIndex = 0,
+        options = {}
+    ;
 
     this.data = {
         salaryList: [],
@@ -34,62 +34,56 @@ exports = module.exports = function IndeedService() {
         jobList: []
     }; // close data
 
-    this.query = function(jobTitle, location, radius, startingAd) {
-
-        // If `startingAd` is undefined, we'll get the first page of results.
-        // Otherwise we specify our starting point.
-        if(startingAd === undefined) {
-            startString = '';
-        } else {
-            startString = '&start=' +startingAd;
-        }
-
+    this.query = function(options) {
         return new Promise(function(resolve, reject) {
-            _util.getHTTPS('ca.indeed.com', '/jobs?q=' +jobTitle+ '&l=' +location+ '&radius=' + radius + startString)
+
+            // Validate parameter before continuing.
+            if(options === null || options === undefined) {
+                reject(new Error('Inside IndeedService.query() -- `options` is ' +options+ '.'));
+                return;
+            }
+
+            _this.options = options;
+            console.log('[*] Starting search query ...');
+            _buildQueryString(options).then(function(queryString) {
+
+                // Are we using a new query from last time?
+                // Reset current job index and previous query.
+                // This helps with pagination and prevents users from seeing the same jobs.
+                if(queryString !== _this.previousQuery) {
+                    _this.jobIndex = 0;
+                    _this.previousQuery = queryString;
+                } else {
+                    _this.jobIndex += 10;
+                }
+
+                // Determine if we're searching Canada or USA.
+                // TODO: Add support for more countries
+                if(options.searchCanada == 'true') {
+                    return _util.getHTTPS('ca.indeed.com', '/jobs', queryString + '&start=' + _this.jobIndex);
+                } else {
+                    return _util.getHTTPS('www.indeed.com', '/jobs', queryString + '&start=' + _this.jobIndex);
+                }
+            })
             .then(function(htmlResponse) {
-
-                // Store parameter data.
-                // This is needed if the user wants to view "Next Page"
-                _this.parameters.title = jobTitle;
-                _this.parameters.location = location;
-                _this.parameters.radius = radius;
-                _this.parameters.adIndex += 10;
-
-                // Load out HTML into a jQuery-like variable
-                let $ = cheerio.load(htmlResponse);
-
-                // Get title/href of related jobs, sorted by criteria
-                _this.data.featuredAdCount = _getFeaturedJobCount($);
-                _this.data.salaryList = _getJobListByCriteria($, '#SALARY_rbo');
-                _this.data.jobTypeList = _getJobListByCriteria($, '#JOB_TYPE_rbo');
-                _this.data.locationList = _getJobListByCriteria($, '#LOCATION_rbo');
-                _this.data.companyList = _getJobListByCriteria($, '#COMPANY_rbo');
-                _this.data.titleList = _getJobListByCriteria($, '#TITLE_rbo');
-
-                // Get featured & sponsored jobs from current page
-                _getFeaturedJobs($)
-                .then(function(list) {
-                    _this.data.jobList = list;
-                })
-                .catch(function(err) {
-                    console.log('No deal!' + err);
-                    let currentErr = 'Inside IndeedService.query() -- ';
-                    reject(new Error(currentErr + '\n' + err));
-                })
-
+                return _scrapeHTML(htmlResponse);
+            }).then(function($) {
+                return _getFeaturedJobs($);
+            })
+            .then(function(list) {
+                _this.data.jobList = list;
                 resolve(_this.data);
-
             }).catch(function(err) {
                 let currentErr = 'Inside IndeedService.query() -- ';
                 reject(new Error(currentErr + '\n' + err));
             });
+
         }); // close Promise()      
     }; // close this.query()
 
     this.nextPage = function() {
         return new Promise(function(resolve, reject) {
-            _this.query(_this.parameters.title, _this.parameters.location, _this.parameters.radius, _this.parameters.adIndex)
-            .then(function(data) {
+            _this.query(_this.options).then(function(data) {
                 resolve(data);
             })
             .catch(function(err) {
@@ -107,22 +101,94 @@ exports = module.exports = function IndeedService() {
         }
     }; // close printAllData
 
-    this.getFullHTML = function(jobTitle, location, radius) {
+    this.getFullHTML = function(options) {
         return new Promise(function(resolve, reject) {
-            _util.getHTTPS('ca.indeed.com', '/jobs?q=' +jobTitle+ '&l=' +location+ '&radius=' + radius)
+
+            // Validate parameter before continuing.
+            if(options === null || options === undefined) {
+                reject(new Error('Inside IndeedService.query() -- `options` is ' +options+ '.'));
+                return;
+            }
+
+            _buildQueryString(options).then(function(queryString) {
+                if(options.searchCanada) {
+                    return _util.getHTTPS('ca.indeed.com', '/jobs', queryString);
+                } else {
+                    return _util.getHTTPS('www.indeed.com', '/jobs', queryString);
+                }
+            })
             .then(function(htmlResponse) {
                 resolve(htmlResponse);
             })
             .catch(function(err) {
-                let currentErr = 'Inside IndeedService.getFullHTML() -- ';
+                let currentErr = 'Inside IndeedService.getFullHTML() --';
                 reject(new Error(currentErr + '\n' + err));
-            })
-        });
-    };
+            });
+        }); // close Promise
+    }; // close getFullHTML
 
 // -----------------------------------------------------------
 // ---------------- UTILITY FUNCTIONS FOR API ----------------
 // -----------------------------------------------------------
+
+    const _buildQueryString = function(options) {
+        return new Promise(function(resolve, reject) {
+
+            // If any options fail, reject with an error and return.
+            if(options === null) {
+                reject(new Error('_buildQueryString() - `options` parameter is null.')); return;
+            } else if(typeof(options) !== 'object') {
+                reject(new Error('_buildQueryString() - `options` parameter is null.')); return;
+            } else if(options.title === null || options.title.length < 1) {
+                reject(new Error('_buildQueryString() - `options.title` parameter is required.')); return;
+            } else if(options.location === null || options.location.length < 1) {
+                reject(new Error('_buildQueryString() - `options.location` parameter is required.')); return;
+            }
+
+            let queryString = '',
+                itemsProcessed = 0,
+                optionProperties = Object.keys(options)
+            ;
+
+            // For each property in the object, if it's defined then add to `queryString`.
+            optionProperties.forEach(function(property) {
+
+                itemsProcessed++;
+
+                switch(property) {
+                    case 'title': queryString += '?q='      + options[property]; break;
+                    case 'location': queryString += '&l='   + options[property]; break;
+                    case 'radius': queryString += '&r='     + options[property]; break;
+                    case 'jobType': queryString += '&jt='   + options[property]; break;
+                    case 'searchCanada': break; // 
+                    default: console.log(`[!] Warning: Property [${property}] not supported.`);
+                } // close switch
+
+                if(itemsProcessed === optionProperties.length) {
+                    resolve(queryString);
+                    return;
+                }
+            }); // close Object.keys
+        }); // close Promise
+    }; // close _buildQueryString;
+
+    const _scrapeHTML = function(htmlResponse) {
+        return new Promise(function(resolve, reject) {
+
+            // Load out HTML into a jQuery-like variable
+            let $ = cheerio.load(htmlResponse);
+
+            // Get title/href of related jobs, sorted by criteria
+            _this.data.featuredAdCount = _getFeaturedJobCount($);
+            _this.data.salaryList = _getJobListByCriteria($, '#SALARY_rbo');
+            _this.data.jobTypeList = _getJobListByCriteria($, '#JOB_TYPE_rbo');
+            _this.data.locationList = _getJobListByCriteria($, '#LOCATION_rbo');
+            _this.data.companyList = _getJobListByCriteria($, '#COMPANY_rbo');
+            _this.data.titleList = _getJobListByCriteria($, '#TITLE_rbo');
+
+            resolve($);
+        });
+    };
 
     const _formattedPrint = function(itemToPrint, itemName) {
         console.log('----------------- '+itemName+' -----------------');

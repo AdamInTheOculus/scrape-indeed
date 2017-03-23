@@ -15,16 +15,25 @@ var utility = {
     // Uses promises to allow easy asynchronous control flow.
     // Returns a resolved object with received data.
     // Returns a reject object with error message.
-    getHTTPS: function(host, path) {
+    getHTTPS: function(host, path, queryString) {
         return new Promise(function(resolve, reject) {
+
+            if(host === undefined || host === null) {
+                reject(new Error('_util.getHTTPS() -- `host` is undefined or null.'));
+                return;
+            } else if(path === undefined || host === null) {
+                reject(new Error('_util.getHTTPS() -- `path` is undefined or null.'));
+                return;
+            } else if(queryString === undefined || queryString === null) {
+                queryString = '';
+            }
+
             // Request options
             var get_options = {
                 host: host,
-                path: path,
+                path: path + queryString,
                 method: 'GET',
             };
-
-            console.log('Full URL: ' + host + path);
 
             var req = https.get(get_options, function(res) {
 
@@ -37,16 +46,11 @@ var utility = {
 
                 // When there is an error
                 res.on('error', function(err) {
-                    console.log('CRITICAL -- getHTTPS error: ' + err);
-                    reject(new Error(err));
+                    reject(new Error('_util.getHTTPS() -- ' + err));
                 });
 
                 // When the response is completed
                 res.on('end', function() {
-                    console.log('<!-- =============== Attempting HTTPS call! =============== -->');
-                    console.log('<!-- Got response: ' + res.statusCode + '-->');
-                    console.log('<!-- Data size: ' + dataChunk.length + '-->');
-                    console.log('<!-- =============== Successful HTTPS call! =============== -->');
                     resolve(dataChunk);
                 });
             });
