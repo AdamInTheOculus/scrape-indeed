@@ -22,7 +22,7 @@ npm install scrape-indeed
 // Require our module.
 const IndeedService = require('scrape-indeed')();
 
-// Test with: >> node test.js 'Programmer' 'Vancouver' 25 50
+// Test with: node test.js 'Programmer' 'Vancouver' 25 50
 let options = {
     title: process.argv[2],     // Programmer
     location: process.argv[3],  // Vancouver
@@ -49,7 +49,14 @@ IndeedService.query(options)
 // Require our module.
 const IndeedService = require('scrape-indeed')();
 
-// Get initial Indeed data using IndeedService.query().
+let options = {
+    title: process.argv[2],
+    location: process.argv[3],
+    radius: process.argv[4],
+    count: process.argv[5]
+};
+
+// Get initial Indeed data using IndeedService.query()
 IndeedService.query(options)
 .then(function(data) {
     console.log(data.jobList);
@@ -59,7 +66,7 @@ IndeedService.query(options)
     return IndeedService.nextPage();
 })
 .then(function(data) {
-    // Do something with next 10 job postings
+    // Do something with next `n` job postings
     console.log(data.jobList);
 
     // View the current jobs index and total jobs
@@ -100,6 +107,7 @@ Below is an example of what a main job posting is. `jobList` contains a list of 
 | location | string | Geographical location of job |
 | salary | string | Indicates salary/hourly wage |
 | summary | string | Short summary of the job posting |
+| datePosted | string | Indicates # of days since inception. Maximum is 30+ days |
 
 ## Known issues?
 - Only works with ca.indeed.com (Canadian site)
@@ -109,6 +117,6 @@ Below is an example of what a main job posting is. `jobList` contains a list of 
 
 ## Backlog
 - Allow all North American jobs to be searched, rather than only Canada.
-~~- Allow a single `options` object to be passed into `IndeedService.query()`, rather than a separate parameter for each search token.~~ (0.4.0)
-~~- Allow `n` number of job postings to be searched, rather than 10 per query.~~ (0.4.0)
-~~- Create NPM registry to enable `npm install`.~~ (0.3.2)
+- ~~Allow a single `options` object to be passed into `IndeedService.query()`, rather than a separate parameter for each search token.~~ (0.4.0)
+- ~~Allow `n` number of job postings to be searched, rather than 10 per query.~~ (0.4.0)
+- ~~Create NPM registry to enable `npm install`.~~ (0.3.2)
