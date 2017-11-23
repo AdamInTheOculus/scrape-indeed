@@ -57,15 +57,21 @@ exports = module.exports = function IndeedService() {
                     _this.jobIndex += 10;
                 }
 
+                let searchURL = '/jobs' + queryString + '&start=' + _this.jobIndex;
+
                 // Determine if we're searching Canada or USA.
                 // TODO: Add support for more countries
-                if(options.searchCanada == 'true') {
-                    return _util.getHTTPS('ca.indeed.com', '/jobs', queryString + '&start=' + _this.jobIndex);
+                // TODO: Change to switch statement
+                if(options.searchUSA == 'true') {
+                    console.log('[*] Search URL: www.indeed.com' + searchURL);
+                    return _util.getHTTPS('www.indeed.com', searchURL);
                 } else {
-                    return _util.getHTTPS('www.indeed.com', '/jobs', queryString + '&start=' + _this.jobIndex);
+                    console.log('[*] Search URL: ca.indeed.com' + searchURL);
+                    return _util.getHTTPS('ca.indeed.com', searchURL);
                 }
             })
             .then(function(htmlResponse) {
+                console.log('--- Got our response! ---');
                 return _scrapeHTML(htmlResponse);
             }).then(function($) {
                 return _getFeaturedJobs($);
@@ -74,7 +80,7 @@ exports = module.exports = function IndeedService() {
                 _this.data.jobList = list;
                 resolve(_this.data);
             }).catch(function(err) {
-                let currentErr = 'Inside IndeedService.query() -- ';
+                let currentErr = '[!] IndeedService.query()';
                 reject(new Error(currentErr + '\n' + err));
             });
 
@@ -150,17 +156,21 @@ exports = module.exports = function IndeedService() {
                 optionProperties = Object.keys(options)
             ;
 
+            // Regular expresson to detect any whitespace character
+            let ws_regex = /\s+/g;
+
             // For each property in the object, if it's defined then add to `queryString`.
             optionProperties.forEach(function(property) {
 
                 itemsProcessed++;
 
                 switch(property) {
-                    case 'title': queryString += '?q='      + options[property]; break;
-                    case 'location': queryString += '&l='   + options[property]; break;
-                    case 'radius': queryString += '&r='     + options[property]; break;
-                    case 'jobType': queryString += '&jt='   + options[property]; break;
-                    case 'searchCanada': break; // 
+                    case 'title': queryString += '?q='      + options[property].replace(ws_regex, '+'); break;
+                    case 'location': queryString += '&l='   + options[property].replace(ws_regex, '+'); break;
+                    case 'radius': queryString += '&r='     + options[property].replace(ws_regex, '+'); break;
+                    case 'jobType': queryString += '&jt='   + options[property].replace(ws_regex, '+'); break;
+                    case 'count': queryString += '&limit='  + options[property].replace(ws_regex, '+'); break;
+
                     default: console.log(`[!] Warning: Property [${property}] not supported.`);
                 } // close switch
 
@@ -235,12 +245,13 @@ exports = module.exports = function IndeedService() {
                     let jobDetails = {};
 
                     // Get job title and href to ad details
+                    // TODO: Could be a US job. Don't hard code `ca.indeed.com`
                     let aTag = $(element).find('a');
                     jobDetails.href = 'ca.indeed.com' + aTag.attr('href');
                     jobDetails.title = aTag.attr('title');
 
                     // Is ad sponsored?
-                    let sponsor = $(element).find('span.sdn');
+                    let sponsor = $(element).find('span.sponsoredGray');
                     let isSponsored = false;
                     ((sponsor.text() === 'Sponsored') ? isSponsored = true : isSponsored = false);
                     jobDetails.isSponsored = isSponsored;
@@ -272,18 +283,17 @@ exports = module.exports = function IndeedService() {
                     } else {
 
                         // Company name
-                        let companySpan = $(element).find('span.company');
-                        company = companySpan.find('span').text();
+                        let company = $(element).find('span.company').text();
                         jobDetails.company = ((company.length > 1) ? company.trim() : 'N/A');
 
                         // Job location
-                        location = $(element).find("span[itemprop='addressLocality']").text();
+                        location = $(element).find("span.location").text();
                         jobDetails.location = ((location.length > 1) ? location.trim() : 'N/A');
 
                         let tableData = $(element).find('table tr td');
 
                         // Job salary
-                        salary = $(tableData).find('nobr').text();
+                        salary = $(tableData).find('span.no-wrap').text();
                         jobDetails.salary = ((salary.length > 1) ? salary.trim() : 'N/A');
 
                         // Job summary

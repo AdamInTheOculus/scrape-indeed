@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### v0.4.0
+- update web scraping elements
+- add search limit of range [5-50] jobs per search
+
 #### v0.3.3
 - remove unnecessary modules 
 

@@ -15,14 +15,11 @@ var utility = {
     // Uses promises to allow easy asynchronous control flow.
     // Returns a resolved object with received data.
     // Returns a reject object with error message.
-    getHTTPS: function(host, path, queryString) {
+    getHTTPS: function(host, queryString) {
         return new Promise(function(resolve, reject) {
 
             if(host === undefined || host === null) {
                 reject(new Error('_util.getHTTPS() -- `host` is undefined or null.'));
-                return;
-            } else if(path === undefined || host === null) {
-                reject(new Error('_util.getHTTPS() -- `path` is undefined or null.'));
                 return;
             } else if(queryString === undefined || queryString === null) {
                 queryString = '';
@@ -31,7 +28,7 @@ var utility = {
             // Request options
             var get_options = {
                 host: host,
-                path: path + queryString,
+                path: queryString,
                 method: 'GET',
             };
 
