@@ -117,6 +117,6 @@ Below is an example of what a main job posting is. `jobList` contains a list of 
 
 ## Backlog
 - Allow all North American jobs to be searched, rather than only Canada.
-- ~~Allow a single `options` object to be passed into `IndeedService.query()`, rather than a separate parameter for each search token.~~ (0.4.0)
-- ~~Allow `n` number of job postings to be searched, rather than 10 per query.~~ (0.4.0)
-- ~~Create NPM registry to enable `npm install`.~~ (0.3.2)
+- ~~Allow a single object to be passed into query function, rather than a separate parameter for each search token.~~ (0.4.0)
+- ~~Allow wide range of job postings to be searched, rather than default 10 per query.~~ (0.4.0)
+- ~~Create NPM registry to enable npm install.~~ (0.3.2)
