@@ -44,7 +44,6 @@ exports = module.exports = function IndeedService() {
             }
 
             _this.options = options;
-            console.log('[*] Starting search query ...');
             _buildQueryString(options).then(function(queryString) {
 
                 // Are we using a new query from last time?
@@ -165,11 +164,11 @@ exports = module.exports = function IndeedService() {
                 itemsProcessed++;
 
                 switch(property) {
-                    case 'title': queryString += '?q='      + options[property].replace(ws_regex, '+'); break;
-                    case 'location': queryString += '&l='   + options[property].replace(ws_regex, '+'); break;
-                    case 'radius': queryString += '&r='     + options[property].replace(ws_regex, '+'); break;
-                    case 'jobType': queryString += '&jt='   + options[property].replace(ws_regex, '+'); break;
-                    case 'count': queryString += '&limit='  + options[property].replace(ws_regex, '+'); break;
+                    case 'title': queryString += '?q='      + options[property].toString().replace(ws_regex, '+'); break;
+                    case 'location': queryString += '&l='   + options[property].toString().replace(ws_regex, '+'); break;
+                    case 'radius': queryString += '&r='     + options[property].toString().replace(ws_regex, '+'); break;
+                    case 'jobType': queryString += '&jt='   + options[property].toString().replace(ws_regex, '+'); break;
+                    case 'count': queryString += '&limit='  + options[property].toString().replace(ws_regex, '+'); break;
 
                     default: console.log(`[!] Warning: Property [${property}] not supported.`);
                 } // close switch
