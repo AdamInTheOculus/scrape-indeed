@@ -62,15 +62,12 @@ exports = module.exports = function IndeedService() {
                 // TODO: Add support for more countries
                 // TODO: Change to switch statement
                 if(options.searchUSA == 'true') {
-                    console.log('[*] Search URL: www.indeed.com' + searchURL);
                     return _util.getHTTPS('www.indeed.com', searchURL);
                 } else {
-                    console.log('[*] Search URL: ca.indeed.com' + searchURL);
                     return _util.getHTTPS('ca.indeed.com', searchURL);
                 }
             })
             .then(function(htmlResponse) {
-                console.log('--- Got our response! ---');
                 return _scrapeHTML(htmlResponse);
             }).then(function($) {
                 return _getFeaturedJobs($);
@@ -189,11 +186,11 @@ exports = module.exports = function IndeedService() {
 
             // Get title/href of related jobs, sorted by criteria
             _this.data.featuredAdCount = _getFeaturedJobCount($);
-            _this.data.salaryList = _getJobListByCriteria($, '#SALARY_rbo');
-            _this.data.jobTypeList = _getJobListByCriteria($, '#JOB_TYPE_rbo');
-            _this.data.locationList = _getJobListByCriteria($, '#LOCATION_rbo');
-            _this.data.companyList = _getJobListByCriteria($, '#COMPANY_rbo');
-            _this.data.titleList = _getJobListByCriteria($, '#TITLE_rbo');
+            // _this.data.salaryList = _getJobListByCriteria($, '#SALARY_rbo');
+            // _this.data.jobTypeList = _getJobListByCriteria($, '#JOB_TYPE_rbo');
+            // _this.data.locationList = _getJobListByCriteria($, '#LOCATION_rbo');
+            // _this.data.companyList = _getJobListByCriteria($, '#COMPANY_rbo');
+            // _this.data.titleList = _getJobListByCriteria($, '#TITLE_rbo');
 
             resolve($);
         });

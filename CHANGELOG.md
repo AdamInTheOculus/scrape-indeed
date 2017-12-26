@@ -1,6 +1,10 @@
 Changelog
 =========
 
+#### v0.4.2
+- supress console logs
+- disable scraping of Indeed aside links for better performance 
+
 #### v0.4.1
 - fix "replace is not a function" by converting toString()
 
