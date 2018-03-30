@@ -1,6 +1,9 @@
 Changelog
 =========
 
+### v0.4.3
+- change empty result from 'N/A' to 'Not specified'
+
 #### v0.4.2
 - supress console logs
 - disable scraping of Indeed aside links for better performance 
