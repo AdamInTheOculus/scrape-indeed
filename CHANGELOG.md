@@ -1,6 +1,9 @@
 Changelog
 =========
 
+### v0.4.0
+- add support for multiple countries
+
 ### v0.4.3
 - change empty result from 'N/A' to 'Not specified'
 
