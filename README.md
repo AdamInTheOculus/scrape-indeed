@@ -2,7 +2,6 @@
 
 ## What is it?
 - Node.js package that allows flexible job searching of Indeed's job postings.
-- HTTPS calls are made to `ca.indeed.com` (Currently only Canadian jobs, see [Backlog](#backlog)).
 - Uses ES6 Promises to handle asynchronous control flow.
 
 ## Why use it?
