@@ -7,6 +7,7 @@
 
 ## Why use it?
 - Allows your web app to get full job posting data from Indeed.
+- Can use it for 63 countries (see https://www.indeed.com/worldwide)
 - You don't have to deal with Indeed's cluttered interface.
 
 ## How to use it?
@@ -26,8 +27,9 @@ const IndeedService = require('scrape-indeed')();
 let options = {
     title: process.argv[2],     // Programmer
     location: process.argv[3],  // Vancouver
-    radius: process.argv[4],    // 25 kilometer radius
-    count: process.argv[5]      // 50 job postings
+    country: process.argv[4],   // Canada
+    radius: process.argv[5],    // 25 kilometer radius
+    count: process.argv[6]      // 50 job postings
 };
 
 IndeedService.query(options)
@@ -52,8 +54,9 @@ const IndeedService = require('scrape-indeed')();
 let options = {
     title: process.argv[2],
     location: process.argv[3],
-    radius: process.argv[4],
-    count: process.argv[5]
+    country: process.argv[4],   // Canada
+    radius: process.argv[5],    // 25 kilometer radius
+    count: process.argv[6]      // 50 job postings
 };
 
 // Get initial Indeed data using IndeedService.query()
@@ -110,13 +113,11 @@ Below is an example of what a main job posting is. `jobList` contains a list of 
 | datePosted | string | Indicates # of days since inception. Maximum is 30+ days |
 
 ## Known issues?
-- Only works with ca.indeed.com (Canadian site)
-    - US site feature will be added in future
 - Some main job postings will be missing data ('N/A')
     - This is because job posters don't provide all information
 
 ## Backlog
-- Allow all North American jobs to be searched, rather than only Canada.
+- ~~Allow all North American jobs to be searched, rather than only Canada.~~ (0.5.0)
 - ~~Allow a single object to be passed into query function, rather than a separate parameter for each search token.~~ (0.4.0)
 - ~~Allow wide range of job postings to be searched, rather than default 10 per query.~~ (0.4.0)
 - ~~Create NPM registry to enable npm install.~~ (0.3.2)
