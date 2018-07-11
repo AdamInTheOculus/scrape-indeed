@@ -56,15 +56,28 @@ exports = module.exports = function IndeedService() {
                     _this.jobIndex += 10;
                 }
 
-                let searchURL = '/jobs' + queryString + '&start=' + _this.jobIndex;
-
-                // Determine if we're searching Canada or USA.
-                // TODO: Add support for more countries
-                // TODO: Change to switch statement
-                if(options.searchUSA == 'true') {
-                    return _util.getHTTPS('www.indeed.com', searchURL);
-                } else {
-                    return _util.getHTTPS('ca.indeed.com', searchURL);
+                switch(options.country) {
+                    case "Argentina": return _util.getHTTPS('ar.indeed.com', '/jobs'+queryString); break;
+                    case "Australia": return _util.getHTTPS('au.indeed.com', '/jobs'+queryString); break;
+                    case "Austria": return _util.getHTTPS('at.indeed.com', '/jobs'+queryString); break;
+                    case "Bahrain": return _util.getHTTPS('bh.indeed.com', '/jobs'+queryString); break;
+                    case "Belgium": return _util.getHTTPS('be.indeed.com', '/jobs'+queryString); break;
+                    case "Brazil": return _util.getHTTPS('indeed.com.br', '/jobs'+queryString); break;
+                    case "Canada": return _util.getHTTPS('ca.indeed.com', '/jobs'+queryString);  break;
+                    case "Chile": return _util.getHTTPS('indeed.com.cl', '/jobs'+queryString); break;
+                    case "China": return _util.getHTTPS('cn.indeed.com', '/jobs'+queryString); break;
+                    case "Columbia": return _util.getHTTPS('co.indeed.com', '/jobs'+queryString); break;
+                    case "Costa Rica": return _util.getHTTPS('cr.indeed.com', '/jobs'+queryString); break;
+                    case "Czech Republic": return _util.getHTTPS('cz.indeed.com', '/jobs'+queryString); break;
+                    case "Denmark": return _util.getHTTPS('dk.indeed.com', '/jobs'+queryString); break;
+                    case "Ecuador": return _util.getHTTPS('ec.indeed.com', '/jobs'+queryString); break;
+                    case "Egypt": return _util.getHTTPS('eg.indeed.com', '/jobs'+queryString); break;
+                    case "Finland": return _util.getHTTPS('www.indeed.fi', '/jobs'+queryString); break;
+                    case "France": return _util.getHTTPS('www.indeed.fr', '/jobs'+queryString); break;
+                    case "Germany": return _util.getHTTPS('de.indeed.com', '/jobs'+queryString); break;
+                    case "Romania": return _util.getHTTPS('ro.indeed.com', '/jobs'+queryString); break;
+                    case "USA": return _util.getHTTPS('www.indeed.com', '/jobs'+queryString); break;
+                    default: return _util.getHTTPS('www.indeed.com', '/jobs'+queryString);
                 }
             })
             .then(function(htmlResponse) {
@@ -113,10 +126,30 @@ exports = module.exports = function IndeedService() {
             }
 
             _buildQueryString(options).then(function(queryString) {
-                if(options.searchCanada) {
-                    return _util.getHTTPS('ca.indeed.com', '/jobs', queryString);
-                } else {
-                    return _util.getHTTPS('www.indeed.com', '/jobs', queryString);
+
+                console.log('Country: ' + options.country);
+                switch(options.country) {
+                    case "Argentina": return _util.getHTTPS('ar.indeed.com/jobs', queryString); break;
+                    case "Australia": return _util.getHTTPS('au.indeed.com/jobs', queryString); break;
+                    case "Austria": return _util.getHTTPS('at.indeed.com/jobs', queryString); break;
+                    case "Bahrain": return _util.getHTTPS('bh.indeed.com/jobs', queryString); break;
+                    case "Belgium": return _util.getHTTPS('be.indeed.com/jobs', queryString); break;
+                    case "Brazil": return _util.getHTTPS('indeed.com.br/jobs', queryString); break;
+                    case "Canada": return _util.getHTTPS('ca.indeed.com/jobs', queryString);  break;
+                    case "Chile": return _util.getHTTPS('indeed.com.cl/jobs', queryString); break;
+                    case "China": return _util.getHTTPS('cn.indeed.com/jobs', queryString); break;
+                    case "Columbia": return _util.getHTTPS('co.indeed.com/jobs', queryString); break;
+                    case "Costa Rica": return _util.getHTTPS('cr.indeed.com/jobs', queryString); break;
+                    case "Czech Republic": return _util.getHTTPS('cz.indeed.com/jobs', queryString); break;
+                    case "Denmark": return _util.getHTTPS('dk.indeed.com/jobs', queryString); break;
+                    case "Ecuador": return _util.getHTTPS('ec.indeed.com/jobs', queryString); break;
+                    case "Egypt": return _util.getHTTPS('eg.indeed.com/jobs', queryString); break;
+                    case "Finland": return _util.getHTTPS('www.indeed.fi/jobs', queryString); break;
+                    case "France": return _util.getHTTPS('www.indeed.fr/emplois', queryString); break;
+                    case "Germany": return _util.getHTTPS('de.indeed.com/jobs', queryString); break;
+                    case "Romania": return _util.getHTTPS('ro.indeed.com/jobs', queryString); break;
+                    case "USA": console.log('Actually America ...\n');    return _util.getHTTPS('www.indeed.com/jobs', queryString); break;
+                    default: return _util.getHTTPS('www.indeed.com/jobs', queryString);
                 }
             })
             .then(function(htmlResponse) {
@@ -166,6 +199,7 @@ exports = module.exports = function IndeedService() {
                     case 'radius': queryString += '&r='     + options[property].toString().replace(ws_regex, '+'); break;
                     case 'jobType': queryString += '&jt='   + options[property].toString().replace(ws_regex, '+'); break;
                     case 'count': queryString += '&limit='  + options[property].toString().replace(ws_regex, '+'); break;
+                    case 'country': break;
 
                     default: console.log(`[!] Warning: Property [${property}] not supported.`);
                 } // close switch
