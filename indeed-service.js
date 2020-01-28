@@ -292,47 +292,44 @@ exports = module.exports = function IndeedService() {
                     if(isSponsored) {
 
                         let sponsoredDiv = $(element).find('div.sjcl');
-                        let tableData = $(element).find('table tr td span.summary');
 
                         // Company name
                         company = sponsoredDiv.find('span.company').text();
-                        jobDetails.company = ((company.length > 1) ? company.trim() : 'Not specified');
+                        jobDetails.company = ((company.length > 1) ? company.trim() : '');
 
                         // Job location
-                        location = sponsoredDiv.find('span.location').text();
-                        jobDetails.location = ((location.length > 1) ? location.trim() : 'Not specified');
+                        location = sponsoredDiv.find('div.location').text();
+                        jobDetails.location = ((location.length > 1) ? location.trim() : '');
 
                         // Job salary
-                        salary = $(sponsoredDiv).find('div').text();
-                        jobDetails.salary = ((salary.length > 1) ? salary.trim() : 'Not specified');
+                        salary = $(element).find('span.salaryText').text();
+                        jobDetails.salary = ((salary.length > 1) ? salary.trim() : '');
 
                         // Job summary
-                        summary = tableData.text();
-                        jobDetails.summary = ((summary.length > 1) ? summary.trim() : 'Not specified');
+                        summary = $(element).find('div.summary ul li').text();
+                        jobDetails.summary = ((summary.length > 1) ? summary.trim() : '');
 
                     } else {
 
                         // Company name
                         let company = $(element).find('span.company').text();
-                        jobDetails.company = ((company.length > 1) ? company.trim() : 'Not specified');
+                        jobDetails.company = ((company.length > 1) ? company.trim() : '');
 
                         // Job location
                         location = $(element).find("span.location").text();
-                        jobDetails.location = ((location.length > 1) ? location.trim() : 'Not specified');
-
-                        let tableData = $(element).find('table tr td');
+                        jobDetails.location = ((location.length > 1) ? location.trim() : '');
 
                         // Job salary
-                        salary = $(tableData).find('span.no-wrap').text();
-                        jobDetails.salary = ((salary.length > 1) ? salary.trim() : 'Not specified');
+                        salary = $(element).find('span.salaryText').text();
+                        jobDetails.salary = ((salary.length > 1) ? salary.trim() : '');
 
                         // Job summary
-                        summary = $(tableData).find('span.summary').text();
-                        jobDetails.summary = ((summary.length > 1) ? summary.trim() : 'Not specified');
+                        summary = $(element).find('div.summary ul li').text();
+                        jobDetails.summary = ((summary.length > 1) ? summary.trim() : '');
 
                         // Job post date
-                        datePosted = $(tableData).find('span.date').text();
-                        jobDetails.datePosted = ((datePosted.length > 1) ? datePosted.trim() : 'Not specified');
+                        datePosted = $(element).find('span.date ').text();
+                        jobDetails.datePosted = ((datePosted.length > 1) ? datePosted.trim() : '');
                     }
 
                     list.push(jobDetails);
